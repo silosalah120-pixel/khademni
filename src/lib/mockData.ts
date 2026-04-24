@@ -1,4 +1,4 @@
-import { Project, UserProfile } from "./types";
+import { Project, UserProfile } from "@/types";
 
 export const MOCK_PROJECTS: Project[] = [
   {
