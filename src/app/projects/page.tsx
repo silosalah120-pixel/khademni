@@ -70,7 +70,7 @@ export default function BrowseProjectsPage() {
               <div className="space-y-6">
                 <div className="space-y-3">
                   <label className="text-sm font-bold uppercase tracking-wider text-muted-foreground">Category</label>
-                  <Select onValueChange={setCategory}>
+                  <Select onValueChange={(val: string | null) => setCategory(val || 'all')}>
                     <SelectTrigger className="h-11 rounded-xl">
                       <SelectValue placeholder="All Categories" />
                     </SelectTrigger>

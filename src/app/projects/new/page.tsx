@@ -114,7 +114,7 @@ export default function NewProjectPage() {
                 <div className="space-y-2">
                   <Label htmlFor="category">Category</Label>
                   <Select 
-                    onValueChange={(val: string) => setFormData({...formData, category: val})}
+                    onValueChange={(val: string | null) => setFormData({...formData, category: val || ''})}
                     required
                   >
                     <SelectTrigger className="h-12 rounded-xl">
