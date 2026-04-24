@@ -11,7 +11,6 @@ import { auth } from '@/lib/firebase';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Github, Mail } from 'lucide-react';
 
 export default function SignupPage() {
   const [name, setName] = useState('');
