@@ -27,29 +27,26 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useAuth } from '@/context/AuthContext';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function ProfilePage() {
   const { id } = useParams();
   const { user, profile: authProfile } = useAuth();
+  const { t, isRTL } = useLanguage();
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchProfile() {
       setLoading(true);
-      
-      // 1. Check if it's the current user
       if (user && user.uid === id && authProfile) {
         setProfile(authProfile);
         setLoading(false);
         return;
       }
-
-      // 2. Try fetching from Firestore
       try {
         const docRef = doc(db, 'users', id as string);
         const docSnap = await getDoc(docRef);
-        
         if (docSnap.exists()) {
           setProfile(docSnap.data() as UserProfile);
           setLoading(false);
@@ -58,21 +55,11 @@ export default function ProfilePage() {
       } catch (error) {
         console.error("Error fetching profile:", error);
       }
-
-      // 3. Fallback to Mock Data
       const found = MOCK_FREELANCERS.find(f => f.uid === id);
-      if (found) {
-        setProfile(found);
-      } else {
-        setProfile(null);
-      }
-      
+      setProfile(found || null);
       setLoading(false);
     }
-
-    if (id) {
-      fetchProfile();
-    }
+    if (id) fetchProfile();
   }, [id, user, authProfile]);
 
   if (loading) {
@@ -85,13 +72,13 @@ export default function ProfilePage() {
 
   if (!profile) {
     return (
-      <div className="min-h-screen">
+      <div className={`min-h-screen ${isRTL ? 'font-arabic' : ''}`}>
         <Navbar />
         <div className="container mx-auto px-4 py-20 text-center">
-          <h1 className="text-4xl font-bold mb-4">Profile Not Found</h1>
-          <p className="text-muted-foreground mb-8">The freelancer profile you are looking for does not exist or has been removed.</p>
-          <Button asChild>
-            <a href="/freelancers">Browse Freelancers</a>
+          <h1 className="text-4xl font-bold mb-4">{t.profile.notfound}</h1>
+          <p className="text-muted-foreground mb-8 font-bold">{t.profile.notfoundDesc}</p>
+          <Button asChild className="rounded-2xl h-12 px-8 font-bold premium-gradient">
+            <a href="/freelancers">{t.common.findFreelancers}</a>
           </Button>
         </div>
       </div>
@@ -99,10 +86,9 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-secondary/10 pb-20">
+    <div className={`min-h-screen bg-secondary/10 pb-20 ${isRTL ? 'font-arabic' : ''}`}>
       <Navbar />
       
-      {/* Profile Header Background */}
       <div className="h-64 bg-primary relative">
         <div className="absolute inset-0 bg-black/20" />
         <div className="premium-gradient absolute inset-0 opacity-40" />
@@ -110,7 +96,6 @@ export default function ProfilePage() {
 
       <main className="container mx-auto px-4 -mt-32 relative z-10">
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Sidebar */}
           <aside className="w-full lg:w-[400px] space-y-6">
             <Card className="border-none shadow-2xl rounded-[3rem] overflow-hidden bg-card/80 backdrop-blur-xl">
               <CardContent className="p-8">
@@ -119,7 +104,7 @@ export default function ProfilePage() {
                     <div className="absolute inset-0 bg-primary/20 rounded-full blur-3xl scale-110" />
                     <Avatar className="h-44 w-44 border-8 border-background shadow-2xl relative z-10">
                       <AvatarImage src={profile.photoURL} />
-                      <AvatarFallback className="text-4xl">{profile.name.charAt(0)}</AvatarFallback>
+                      <AvatarFallback className="text-4xl font-black">{profile.name.charAt(0)}</AvatarFallback>
                     </Avatar>
                     {profile.isVerified && (
                       <div className="absolute bottom-2 right-2 bg-primary rounded-full p-2 z-20 shadow-lg border-4 border-background">
@@ -142,7 +127,7 @@ export default function ProfilePage() {
                       </div>
                     </div>
                     <div className="bg-secondary/50 rounded-[2rem] p-5 border border-border/50">
-                      <div className="text-[10px] text-muted-foreground uppercase font-black tracking-widest mb-1">Trust Score</div>
+                      <div className="text-[10px] text-muted-foreground uppercase font-black tracking-widest mb-1">{t.freelancers.trustScore}</div>
                       <div className="flex items-center justify-center gap-1 text-emerald-600 dark:text-emerald-400">
                         <ShieldCheck className="h-5 w-5" />
                         <span className="text-2xl font-black">{profile.trustScore}%</span>
@@ -153,23 +138,23 @@ export default function ProfilePage() {
                   <div className="w-full space-y-4 mb-8">
                     <Button className="w-full h-14 rounded-2xl font-black text-lg gap-2 shadow-xl shadow-primary/20 premium-gradient">
                       <MessageSquare className="h-5 w-5" />
-                      Hire Me
+                      {t.profile.hireMe}
                     </Button>
                     <Button variant="outline" className="w-full h-14 rounded-2xl font-bold border-2">
-                      Contact
+                      {t.profile.contact}
                     </Button>
                   </div>
 
                   <div className="w-full border-t border-border/50 pt-8 space-y-4 text-sm font-bold">
                     <div className="flex justify-between items-center">
                       <div className="flex items-center gap-2 text-muted-foreground">
-                        <Calendar className="h-4 w-4" /> Joined
+                        <Calendar className="h-4 w-4" /> {t.profile.joined}
                       </div>
                       <span>April 2024</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <div className="flex items-center gap-2 text-muted-foreground">
-                        <Trophy className="h-4 w-4" /> Completed
+                        <Trophy className="h-4 w-4" /> {t.profile.completed}
                       </div>
                       <span>{profile.completedProjects} projects</span>
                     </div>
@@ -180,7 +165,7 @@ export default function ProfilePage() {
 
             <Card className="border-none shadow-xl rounded-[3rem] bg-card/80 backdrop-blur-xl">
               <CardHeader className="pt-8 px-8 pb-0">
-                <CardTitle className="text-xl font-black font-heading">Verifications</CardTitle>
+                <CardTitle className="text-xl font-black font-heading">{t.profile.verifications}</CardTitle>
               </CardHeader>
               <CardContent className="p-8 space-y-5">
                 <div className="flex items-center justify-between">
@@ -188,7 +173,7 @@ export default function ProfilePage() {
                     <div className="h-10 w-10 rounded-xl bg-secondary/50 flex items-center justify-center">
                       <Mail className="h-5 w-5 text-muted-foreground" />
                     </div>
-                    <span className="text-sm font-bold">Email Address</span>
+                    <span className="text-sm font-bold">{t.common.email}</span>
                   </div>
                   <CheckCircle2 className="h-5 w-5 text-emerald-500" />
                 </div>
@@ -201,33 +186,23 @@ export default function ProfilePage() {
                   </div>
                   <CheckCircle2 className="h-5 w-5 text-emerald-500" />
                 </div>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="h-10 w-10 rounded-xl bg-secondary/50 flex items-center justify-center">
-                      <ShieldCheck className="h-5 w-5 text-muted-foreground" />
-                    </div>
-                    <span className="text-sm font-bold">Identity Verified</span>
-                  </div>
-                  <div className="text-[10px] font-black text-amber-500 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20">PENDING</div>
-                </div>
               </CardContent>
             </Card>
           </aside>
 
-          {/* Main Content */}
           <div className="flex-1 space-y-8">
             <Card className="border-none shadow-xl rounded-[3rem] overflow-hidden bg-card/80 backdrop-blur-xl">
               <CardContent className="p-10">
                 <Tabs defaultValue="about" className="w-full">
-                  <TabsList className="w-full justify-start bg-transparent border-b border-border/50 rounded-none h-auto p-0 gap-12 mb-10">
-                    <TabsTrigger value="about" className="rounded-none border-b-4 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-0 pb-5 font-black text-xl transition-all">
-                      About
+                  <TabsList className="w-full justify-start bg-transparent border-b border-border/50 rounded-none h-auto p-0 gap-12 mb-10 overflow-x-auto scrollbar-hide">
+                    <TabsTrigger value="about" className="rounded-none border-b-4 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-0 pb-5 font-black text-xl transition-all whitespace-nowrap">
+                      {t.profile.biography}
                     </TabsTrigger>
-                    <TabsTrigger value="portfolio" className="rounded-none border-b-4 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-0 pb-5 font-black text-xl transition-all">
-                      Portfolio
+                    <TabsTrigger value="portfolio" className="rounded-none border-b-4 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-0 pb-5 font-black text-xl transition-all whitespace-nowrap">
+                      {t.profile.portfolio}
                     </TabsTrigger>
-                    <TabsTrigger value="reviews" className="rounded-none border-b-4 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-0 pb-5 font-black text-xl transition-all">
-                      Reviews ({profile.reviewCount})
+                    <TabsTrigger value="reviews" className="rounded-none border-b-4 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-0 pb-5 font-black text-xl transition-all whitespace-nowrap">
+                      {t.profile.reviews} ({profile.reviewCount})
                     </TabsTrigger>
                   </TabsList>
 
@@ -235,9 +210,9 @@ export default function ProfilePage() {
                     <div>
                       <h3 className="text-2xl font-black font-heading mb-6 flex items-center gap-3">
                         <div className="h-8 w-1 bg-primary rounded-full" />
-                        Biography
+                        {t.profile.biography}
                       </h3>
-                      <p className="text-muted-foreground leading-loose text-lg">
+                      <p className="text-muted-foreground leading-loose text-lg font-medium">
                         {profile.bio || "No biography provided."}
                       </p>
                     </div>
@@ -245,7 +220,7 @@ export default function ProfilePage() {
                     <div>
                       <h3 className="text-2xl font-black font-heading mb-6 flex items-center gap-3">
                         <div className="h-8 w-1 bg-primary rounded-full" />
-                        Professional Skills
+                        {t.profile.skills}
                       </h3>
                       <div className="flex flex-wrap gap-3">
                         {profile.skills.map((skill) => (
@@ -266,8 +241,7 @@ export default function ProfilePage() {
                               <ExternalLink className="h-10 w-10 text-white" />
                             </div>
                           </div>
-                          <h4 className="font-black text-xl mb-1 group-hover:text-primary transition-colors">Digital Product Design {i}</h4>
-                          <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">Mobile & Web App</p>
+                          <h4 className="font-black text-xl mb-1 group-hover:text-primary transition-colors">Digital Project Design {i}</h4>
                         </div>
                       ))}
                     </div>
@@ -289,14 +263,9 @@ export default function ProfilePage() {
                                 ))}
                               </div>
                             </div>
-                            <p className="text-muted-foreground leading-relaxed">
-                              "Working with {profile.name.split(' ')[0]} was an absolute pleasure. Their attention to detail and professional communication is top-tier. The project exceeded our expectations in every way."
+                            <p className="text-muted-foreground font-medium leading-relaxed">
+                              "Excellent work! Highly recommended."
                             </p>
-                            <div className="flex items-center gap-2 pt-2">
-                              <span className="text-[10px] text-muted-foreground uppercase font-black tracking-widest">Delivered on Time</span>
-                              <div className="h-1 w-1 rounded-full bg-muted-foreground/30" />
-                              <span className="text-[10px] text-muted-foreground uppercase font-black tracking-widest">2 months ago</span>
-                            </div>
                           </div>
                         </div>
                       ))}
