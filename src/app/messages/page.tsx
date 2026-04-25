@@ -6,10 +6,10 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/firebase';
-import { collection, query, where, onSnapshot, orderBy } from 'firebase/firestore';
+import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { Order } from '../../types';
 import Link from 'next/link';
-import { MessageSquare, Search, Filter, Loader2 } from 'lucide-react';
+import { MessageSquare, Search, Filter, Loader2, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 
@@ -17,24 +17,41 @@ export default function MessagesPage() {
   const { user } = useAuth();
   const [activeChats, setActiveChats] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!user) return;
 
-    // Fetch orders where the user is either the client or the freelancer
-    // This represents active "chat channels"
+    // SIMPLIFIED QUERY: Removed orderBy to avoid requiring a composite index in Firestore.
+    // We will sort in-memory instead.
     const q = query(
       collection(db, 'orders'),
-      where('status', 'in', ['pending', 'in-progress', 'delivered']),
-      orderBy('createdAt', 'desc')
+      where('status', 'in', ['pending', 'in-progress', 'delivered'])
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
-      const orders = snapshot.docs
-        .map(doc => ({ id: doc.id, ...doc.data() } as Order))
-        .filter(order => order.clientId === user.uid || order.freelancerId === user.uid);
-      
-      setActiveChats(orders);
+      try {
+        const orders = snapshot.docs
+          .map(doc => ({ id: doc.id, ...doc.data() } as Order))
+          .filter(order => order.clientId === user.uid || order.freelancerId === user.uid)
+          // Sort in-memory by date descending
+          .sort((a, b) => {
+            const dateA = a.createdAt?.toDate?.() || new Date(0);
+            const dateB = b.createdAt?.toDate?.() || new Date(0);
+            return dateB.getTime() - dateA.getTime();
+          });
+        
+        setActiveChats(orders);
+        setLoading(false);
+        setError(null);
+      } catch (err) {
+        console.error("Error processing messages:", err);
+        setError("Failed to load conversations. Please try again.");
+        setLoading(false);
+      }
+    }, (err) => {
+      console.error("Firestore error:", err);
+      setError("Unable to connect to messaging service.");
       setLoading(false);
     });
 
@@ -72,6 +89,16 @@ export default function MessagesPage() {
             <div className="flex flex-col items-center justify-center py-40 gap-4">
               <Loader2 className="h-12 w-12 animate-spin text-primary" />
               <p className="font-bold text-muted-foreground">Loading your conversations...</p>
+            </div>
+          ) : error ? (
+            <div className="flex flex-col items-center justify-center py-40 gap-4 text-center">
+              <div className="h-16 w-16 rounded-full bg-destructive/10 flex items-center justify-center">
+                <AlertCircle className="h-8 w-8 text-destructive" />
+              </div>
+              <p className="font-bold text-lg">{error}</p>
+              <Button onClick={() => window.location.reload()} variant="outline" className="rounded-xl">
+                Try Again
+              </Button>
             </div>
           ) : activeChats.length > 0 ? (
             <div className="grid gap-4">
