@@ -41,6 +41,16 @@
     from { height: var(--radix-accordion-content-height); }
     to { height: 0; }
   }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.05); }
+  }
 }
 
 @layer base {
@@ -119,8 +129,16 @@
     @apply bg-clip-text text-transparent bg-gradient-to-br from-primary to-violet-600;
   }
 
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-pulse-slow {
+    animation: pulse-slow 8s ease-in-out infinite;
+  }
+
   .font-arabic {
-    font-family: "__Inter_Fallback_33456c", "__Inter_33456c", ui-sans-serif, system-ui;
+    font-family: "__Outfit_Fallback_33456c", "__Outfit_33456c", ui-sans-serif, system-ui;
   }
 }
 

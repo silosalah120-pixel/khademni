@@ -18,6 +18,7 @@ export const translations = {
       cancel: "Cancel",
       apply: "Apply",
       allCategories: "All Categories",
+      viewAll: "View All",
     },
     hero: {
       badge: "Empowering Algeria's Digital Future",
@@ -39,6 +40,19 @@ export const translations = {
       title: "Explore the",
       titleAccent: "Marketplace",
       subtitle: "Whatever your business needs, there is a specialized freelancer in Algeria ready to help you succeed.",
+    },
+    projects: {
+      recentlyPosted: "Recently Posted Projects",
+      recentlyPostedSubtitle: "Find the latest opportunities for your skills.",
+      budget: "Budget",
+      offers: "Offers",
+      applyNow: "Apply Now",
+    },
+    freelancers: {
+      topRated: "Top Rated Freelancers",
+      topRatedSubtitle: "Work with the best talent in Algeria.",
+      trustScore: "Trust Score",
+      viewProfile: "View Profile",
     },
     footer: {
       tagline: "The premier destination for professional services in Algeria.",
@@ -65,6 +79,7 @@ export const translations = {
       cancel: "إلغاء",
       apply: "تطبيق",
       allCategories: "جميع الفئات",
+      viewAll: "مشاهدة الكل",
     },
     hero: {
       badge: "تمكين المستقبل الرقمي للجزائر",
@@ -86,6 +101,19 @@ export const translations = {
       title: "استكشف",
       titleAccent: "سوق العمل",
       subtitle: "مهما كانت احتياجات عملك، هناك مستقل متخصص في الجزائر مستعد لمساعدتك على النجاح.",
+    },
+    projects: {
+      recentlyPosted: "مشاريع أضيفت حديثاً",
+      recentlyPostedSubtitle: "ابحث عن أحدث الفرص المناسبة لمهاراتك.",
+      budget: "الميزانية",
+      offers: "عروض",
+      applyNow: "قدم الآن",
+    },
+    freelancers: {
+      topRated: "أفضل المستقلين تقييماً",
+      topRatedSubtitle: "اعمل مع أفضل المواهب في الجزائر.",
+      trustScore: "مؤشر الثقة",
+      viewProfile: "عرض الملف الشخصي",
     },
     footer: {
       tagline: "الوجهة الأولى للخدمات المهنية في الجزائر.",
@@ -112,6 +140,7 @@ export const translations = {
       cancel: "Annuler",
       apply: "Appliquer",
       allCategories: "Toutes les catégories",
+      viewAll: "Voir Tout",
     },
     hero: {
       badge: "Propulser l'avenir numérique de l'Algérie",
@@ -133,6 +162,19 @@ export const translations = {
       title: "Explorez le",
       titleAccent: "Marché",
       subtitle: "Quels que soient les besoins de votre entreprise, il y a un freelance spécialisé en Algérie prêt à vous aider à réussir.",
+    },
+    projects: {
+      recentlyPosted: "Projets Récents",
+      recentlyPostedSubtitle: "Trouvez les dernières opportunités pour vos compétences.",
+      budget: "Budget",
+      offers: "Offres",
+      applyNow: "Postuler",
+    },
+    freelancers: {
+      topRated: "Freelances les Mieux Notés",
+      topRatedSubtitle: "Travaillez avec les meilleurs talents en Algérie.",
+      trustScore: "Score de Confiance",
+      viewProfile: "Voir le Profil",
     },
     footer: {
       tagline: "La destination privilégiée pour les services professionnels en Algérie.",
