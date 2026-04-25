@@ -1,7 +1,7 @@
 'use client';
 
 import { Project } from '../../types';
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/button'; // Using button as base for cards sometimes but better to use div
+
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Clock, DollarSign, Tag, ChevronRight } from 'lucide-react';
