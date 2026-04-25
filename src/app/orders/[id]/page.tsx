@@ -16,7 +16,7 @@ import {
   ChevronRight,
   Star
 } from 'lucide-react';
-import { Order, OrderStatus } from '@/types';
+import { Order, OrderStatus } from '../../../types';
 import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
 

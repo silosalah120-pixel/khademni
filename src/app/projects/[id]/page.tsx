@@ -20,7 +20,7 @@ import {
 import { useAuth } from '@/context/AuthContext';
 import { db } from '@/lib/firebase';
 import { doc, getDoc, collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { Project } from '@/types';
+import { Project } from '../../../types';
 import { MOCK_PROJECTS } from '@/lib/mockData';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';

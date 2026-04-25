@@ -19,7 +19,7 @@ import { Input } from '@/components/ui/input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Send, Image as ImageIcon, Smile } from 'lucide-react';
-import { Message } from '@/types';
+import { Message } from '../../types';
 
 interface ChatRoomProps {
   orderId: string;

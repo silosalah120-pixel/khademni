@@ -20,7 +20,7 @@ import {
   ExternalLink,
   MessageSquare
 } from 'lucide-react';
-import { UserProfile } from '@/types';
+import { UserProfile } from '../../../types';
 import { MOCK_FREELANCERS } from '@/lib/mockData';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 

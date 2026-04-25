@@ -1,6 +1,6 @@
 'use client';
 
-import { Project } from '@/types';
+import { Project } from '../../types';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
