@@ -1,107 +1,124 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Search, ArrowRight, Shield, Star, CheckCircle } from 'lucide-react';
+import { Search, ArrowRight, Shield, Star, CheckCircle, Sparkles, Globe, Users } from 'lucide-react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 
 export default function Hero() {
   return (
-    <section className="relative overflow-hidden pt-20 pb-32 lg:pt-32 lg:pb-40">
+    <section className="relative overflow-hidden pt-24 pb-32 lg:pt-40 lg:pb-52">
       {/* Background Decorative Elements */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10 overflow-hidden">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px]" />
+        <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-primary/20 rounded-full blur-[140px] animate-pulse" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-indigo-500/10 rounded-full blur-[140px]" />
+        <div className="absolute top-1/4 right-1/4 w-[30%] h-[30%] bg-violet-500/10 rounded-full blur-[120px]" />
       </div>
 
       <div className="container mx-auto px-4">
-        <div className="flex flex-col items-center text-center max-w-4xl mx-auto">
+        <div className="flex flex-col items-center text-center max-w-5xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold uppercase tracking-wider mb-6">
-              <Star className="h-3 w-3 fill-primary" />
-              The #1 Algerian Marketplace for Freelancers
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-8 border border-primary/20 shadow-lg shadow-primary/5">
+              <Sparkles className="h-3.5 w-3.5" />
+              Empowering Algeria's Digital Future
             </span>
           </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-5xl md:text-7xl font-bold font-heading tracking-tight mb-6 leading-[1.1]"
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="text-6xl md:text-8xl font-black font-heading tracking-tight mb-8 leading-[0.95] drop-shadow-sm"
           >
-            Find the perfect <span className="text-primary italic">talent</span> for your business
+            Hire the best <br />
+            <span className="text-gradient">Algerian talent.</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-xl text-muted-foreground mb-10 max-w-2xl"
+            className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-2xl leading-relaxed"
           >
-            Connect with top Algerian freelancers for your software development, design, marketing, and more. All in one place.
+            The #1 marketplace for local businesses and elite freelancers in Algeria. 
+            Build your dream team today.
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="w-full max-w-2xl relative mb-12"
+            className="w-full max-w-3xl relative mb-16"
           >
-            <div className="flex p-2 rounded-2xl bg-card border shadow-2xl items-center gap-2">
-              <div className="flex-1 flex items-center pl-4 gap-3">
-                <Search className="h-5 w-5 text-muted-foreground" />
+            <div className="flex p-3 rounded-[2.5rem] bg-background/80 backdrop-blur-2xl border border-border shadow-[0_32px_64px_-12px_rgba(0,0,0,0.1)] dark:shadow-primary/5 items-center gap-3">
+              <div className="flex-1 flex items-center pl-6 gap-4">
+                <Search className="h-6 w-6 text-primary" />
                 <input 
                   type="text" 
-                  placeholder="What service are you looking for?"
-                  className="w-full bg-transparent border-none focus:ring-0 text-base py-3"
+                  placeholder="Try 'Next.js Developer' or 'Logo Design'..."
+                  className="w-full bg-transparent border-none focus:ring-0 text-lg py-4 placeholder:text-muted-foreground/60"
                 />
               </div>
-              <Button size="lg" className="rounded-xl h-12 px-8 font-semibold">
-                Search
+              <Button size="lg" className="rounded-full h-14 px-10 font-bold premium-gradient hover:scale-105 transition-transform shadow-xl shadow-primary/20">
+                Find Talent
               </Button>
             </div>
             
-            <div className="flex flex-wrap justify-center gap-4 mt-6 text-sm text-muted-foreground">
-              <span>Popular:</span>
-              <Link href="/projects?q=logo" className="hover:text-primary transition-colors">Logo Design</Link>
-              <Link href="/projects?q=web" className="hover:text-primary transition-colors">Web Development</Link>
-              <Link href="/projects?q=mobile" className="hover:text-primary transition-colors">Mobile App</Link>
+            <div className="flex flex-wrap justify-center gap-6 mt-8 text-sm font-medium">
+              <span className="text-muted-foreground">Popular:</span>
+              {['UX Design', 'Full-stack', 'SEO', 'Algerian Dialect Translation'].map((tag) => (
+                <Link key={tag} href={`/projects?q=${tag}`} className="text-foreground hover:text-primary transition-all hover:translate-y-[-1px]">
+                  {tag}
+                </Link>
+              ))}
             </div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-8 w-full border-t pt-12"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.6 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-12 w-full max-w-4xl border-t border-border/50 pt-16"
           >
-            <div className="flex flex-col items-center gap-2">
-              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                <Shield className="h-6 w-6 text-primary" />
+            <div className="flex flex-col items-center gap-4 group">
+              <div className="h-16 w-16 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-inner">
+                <Shield className="h-7 w-7" />
               </div>
-              <span className="font-semibold">Secure Payments</span>
+              <div className="text-center">
+                <p className="font-bold text-lg">Secure Escrow</p>
+                <p className="text-xs text-muted-foreground">Money back guarantee</p>
+              </div>
             </div>
-            <div className="flex flex-col items-center gap-2">
-              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                <CheckCircle className="h-6 w-6 text-primary" />
+            <div className="flex flex-col items-center gap-4 group">
+              <div className="h-16 w-16 rounded-2xl bg-indigo-500/10 flex items-center justify-center group-hover:bg-indigo-500 group-hover:text-white transition-all duration-500 shadow-inner">
+                <Users className="h-7 w-7" />
               </div>
-              <span className="font-semibold">Verified Talent</span>
+              <div className="text-center">
+                <p className="font-bold text-lg">Local Talent</p>
+                <p className="text-xs text-muted-foreground">Native communication</p>
+              </div>
             </div>
-            <div className="flex flex-col items-center gap-2">
-              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                <Star className="h-6 w-6 text-primary" />
+            <div className="flex flex-col items-center gap-4 group">
+              <div className="h-16 w-16 rounded-2xl bg-emerald-500/10 flex items-center justify-center group-hover:bg-emerald-500 group-hover:text-white transition-all duration-500 shadow-inner">
+                <Globe className="h-7 w-7" />
               </div>
-              <span className="font-semibold">Top Rated</span>
+              <div className="text-center">
+                <p className="font-bold text-lg">Verified IDs</p>
+                <p className="text-xs text-muted-foreground">Identity protection</p>
+              </div>
             </div>
-            <div className="flex flex-col items-center gap-2">
-              <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                <ArrowRight className="h-6 w-6 text-primary" />
+            <div className="flex flex-col items-center gap-4 group">
+              <div className="h-16 w-16 rounded-2xl bg-amber-500/10 flex items-center justify-center group-hover:bg-amber-500 group-hover:text-white transition-all duration-500 shadow-inner">
+                <Star className="h-7 w-7" />
               </div>
-              <span className="font-semibold">Fast Delivery</span>
+              <div className="text-center">
+                <p className="font-bold text-lg">Top 1% Skills</p>
+                <p className="text-xs text-muted-foreground">Quality work only</p>
+              </div>
             </div>
           </motion.div>
         </div>

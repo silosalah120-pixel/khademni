@@ -1,10 +1,10 @@
 'use client';
 
 import { Project } from '../../types';
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/button'; // Using button as base for cards sometimes but better to use div
 import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Clock, DollarSign, Tag, Users } from 'lucide-react';
+import { Clock, DollarSign, Tag, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 
 interface ProjectCardProps {
@@ -13,50 +13,52 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project }: ProjectCardProps) {
   return (
-    <Link href={`/projects/${project.id}`}>
-      <Card className="h-full hover:shadow-lg transition-all duration-300 group overflow-hidden border-border/50">
-        <CardHeader className="p-5 pb-0">
-          <div className="flex justify-between items-start mb-3">
-            <Badge variant="secondary" className="font-medium bg-primary/5 text-primary border-none">
-              {project.category}
-            </Badge>
-            <div className="flex items-center gap-1 text-sm font-bold text-primary">
-              <DollarSign className="h-4 w-4" />
-              {project.budget}
-            </div>
+    <div className="premium-card group">
+      <div className="p-8">
+        <div className="flex justify-between items-start mb-6">
+          <Badge variant="secondary" className="bg-primary/5 text-primary border-primary/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wider">
+            {project.category}
+          </Badge>
+          <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-500 bg-emerald-500/5 px-3 py-1 rounded-full border border-emerald-500/10">
+            <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            {project.offerCount} Offers
           </div>
-          <h3 className="text-xl font-bold font-heading line-clamp-2 group-hover:text-primary transition-colors">
+        </div>
+        
+        <Link href={`/projects/${project.id}`}>
+          <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors line-clamp-2 leading-tight">
             {project.title}
           </h3>
-        </CardHeader>
-        <CardContent className="p-5">
-          <p className="text-muted-foreground text-sm line-clamp-3 mb-4">
-            {project.description}
-          </p>
-          <div className="flex items-center gap-4 text-xs text-muted-foreground font-medium">
-            <div className="flex items-center gap-1">
-              <Clock className="h-3.5 w-3.5" />
-              {project.deliveryTime}
+        </Link>
+        
+        <p className="text-muted-foreground text-sm line-clamp-3 mb-8 leading-relaxed">
+          {project.description}
+        </p>
+        
+        <div className="flex items-center gap-4 pt-6 border-t border-border/50">
+          <div className="flex items-center gap-2">
+            <div className="h-10 w-10 rounded-full border-2 border-background shadow-sm overflow-hidden">
+              <Avatar className="h-full w-full">
+                <AvatarImage src={project.ownerPhoto} alt={project.ownerName} />
+                <AvatarFallback>{project.ownerName.charAt(0)}</AvatarFallback>
+              </Avatar>
             </div>
-            <div className="flex items-center gap-1">
-              <Users className="h-3.5 w-3.5" />
-              {project.offerCount} proposals
-            </div>
+            <span className="text-xs font-bold">{project.ownerName}</span>
           </div>
-        </CardContent>
-        <CardFooter className="p-5 pt-0 border-t bg-muted/30">
-          <div className="flex items-center gap-2 mt-4">
-            <Avatar className="h-8 w-8">
-              <AvatarImage src={project.ownerPhoto} />
-              <AvatarFallback>{project.ownerName?.charAt(0)}</AvatarFallback>
-            </Avatar>
-            <div className="flex flex-col">
-              <span className="text-xs font-semibold">{project.ownerName}</span>
-              <span className="text-[10px] text-muted-foreground">Client</span>
-            </div>
+        </div>
+      </div>
+      
+      <div className="px-8 py-5 bg-secondary/30 rounded-b-3xl flex items-center justify-between">
+        <div className="flex flex-col">
+          <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Budget</span>
+          <span className="font-black text-lg text-primary">{project.budget.toLocaleString()} DZD</span>
+        </div>
+        <Link href={`/projects/${project.id}`}>
+          <div className="h-10 w-10 rounded-full bg-primary text-white flex items-center justify-center shadow-lg shadow-primary/20 group-hover:scale-110 transition-transform">
+            <ChevronRight className="h-5 w-5" />
           </div>
-        </CardFooter>
-      </Card>
-    </Link>
+        </Link>
+      </div>
+    </div>
   );
 }
