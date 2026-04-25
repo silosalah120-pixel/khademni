@@ -4,8 +4,11 @@ import { Button } from '@/components/ui/button';
 import { Search, ArrowRight, Shield, Star, CheckCircle, Sparkles, Globe, Users } from 'lucide-react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function Hero() {
+  const { t, isRTL } = useLanguage();
+
   return (
     <section className="relative overflow-hidden pt-24 pb-32 lg:pt-40 lg:pb-52">
       {/* Background Decorative Elements */}
@@ -24,7 +27,7 @@ export default function Hero() {
           >
             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest mb-8 border border-primary/20 shadow-lg shadow-primary/5">
               <Sparkles className="h-3.5 w-3.5" />
-              Empowering Algeria's Digital Future
+              {t.hero.badge}
             </span>
           </motion.div>
 
@@ -32,10 +35,10 @@ export default function Hero() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.1 }}
-            className="text-6xl md:text-8xl font-black font-heading tracking-tight mb-8 leading-[0.95] drop-shadow-sm"
+            className={`text-6xl md:text-8xl font-black font-heading tracking-tight mb-8 leading-[0.95] drop-shadow-sm ${isRTL ? 'font-arabic' : ''}`}
           >
-            Hire the best <br />
-            <span className="text-gradient">Algerian talent.</span>
+            {t.hero.title} <br />
+            <span className="text-gradient">{t.hero.titleAccent}</span>
           </motion.h1>
 
           <motion.p
@@ -44,8 +47,7 @@ export default function Hero() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-2xl leading-relaxed"
           >
-            The #1 marketplace for local businesses and elite freelancers in Algeria. 
-            Build your dream team today.
+            {t.hero.subtitle}
           </motion.p>
 
           <motion.div
@@ -55,22 +57,22 @@ export default function Hero() {
             className="w-full max-w-3xl relative mb-16"
           >
             <div className="flex p-3 rounded-[2.5rem] bg-background/80 backdrop-blur-2xl border border-border shadow-[0_32px_64px_-12px_rgba(0,0,0,0.1)] dark:shadow-primary/5 items-center gap-3">
-              <div className="flex-1 flex items-center pl-6 gap-4">
-                <Search className="h-6 w-6 text-primary" />
+              <div className="flex-1 flex items-center px-4 gap-4">
+                <Search className="h-6 w-6 text-primary shrink-0" />
                 <input 
                   type="text" 
-                  placeholder="Try 'Next.js Developer' or 'Logo Design'..."
+                  placeholder={t.hero.placeholder}
                   className="w-full bg-transparent border-none focus:ring-0 text-lg py-4 placeholder:text-muted-foreground/60"
                 />
               </div>
-              <Button size="lg" className="rounded-full h-14 px-10 font-bold premium-gradient hover:scale-105 transition-transform shadow-xl shadow-primary/20">
-                Find Talent
+              <Button size="lg" className="rounded-full h-14 px-10 font-bold premium-gradient hover:scale-105 transition-transform shadow-xl shadow-primary/20 shrink-0">
+                {t.common.findTalent}
               </Button>
             </div>
             
             <div className="flex flex-wrap justify-center gap-6 mt-8 text-sm font-medium">
-              <span className="text-muted-foreground">Popular:</span>
-              {['UX Design', 'Full-stack', 'SEO', 'Algerian Dialect Translation'].map((tag) => (
+              <span className="text-muted-foreground">{t.hero.popular}</span>
+              {['UX Design', 'Full-stack', 'SEO', 'Mobile App'].map((tag) => (
                 <Link key={tag} href={`/projects?q=${tag}`} className="text-foreground hover:text-primary transition-all hover:translate-y-[-1px]">
                   {tag}
                 </Link>
@@ -89,8 +91,8 @@ export default function Hero() {
                 <Shield className="h-7 w-7" />
               </div>
               <div className="text-center">
-                <p className="font-bold text-lg">Secure Escrow</p>
-                <p className="text-xs text-muted-foreground">Money back guarantee</p>
+                <p className="font-bold text-lg">{t.hero.securePayments}</p>
+                <p className="text-xs text-muted-foreground">{t.hero.securePaymentsDesc}</p>
               </div>
             </div>
             <div className="flex flex-col items-center gap-4 group">
@@ -98,8 +100,8 @@ export default function Hero() {
                 <Users className="h-7 w-7" />
               </div>
               <div className="text-center">
-                <p className="font-bold text-lg">Local Talent</p>
-                <p className="text-xs text-muted-foreground">Native communication</p>
+                <p className="font-bold text-lg">{t.hero.localTalent}</p>
+                <p className="text-xs text-muted-foreground">{t.hero.localTalentDesc}</p>
               </div>
             </div>
             <div className="flex flex-col items-center gap-4 group">
@@ -107,8 +109,8 @@ export default function Hero() {
                 <Globe className="h-7 w-7" />
               </div>
               <div className="text-center">
-                <p className="font-bold text-lg">Verified IDs</p>
-                <p className="text-xs text-muted-foreground">Identity protection</p>
+                <p className="font-bold text-lg">{t.hero.verifiedTalent}</p>
+                <p className="text-xs text-muted-foreground">{t.hero.verifiedTalentDesc}</p>
               </div>
             </div>
             <div className="flex flex-col items-center gap-4 group">
@@ -116,8 +118,8 @@ export default function Hero() {
                 <Star className="h-7 w-7" />
               </div>
               <div className="text-center">
-                <p className="font-bold text-lg">Top 1% Skills</p>
-                <p className="text-xs text-muted-foreground">Quality work only</p>
+                <p className="font-bold text-lg">{t.hero.topRated}</p>
+                <p className="text-xs text-muted-foreground">{t.hero.topRatedDesc}</p>
               </div>
             </div>
           </motion.div>

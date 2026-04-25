@@ -15,6 +15,7 @@ import {
   Layout
 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useLanguage } from '@/context/LanguageContext';
 
 const categories = [
   { name: 'Programming & Tech', icon: Code, color: 'bg-blue-500', count: '1.2k+ Projects' },
@@ -28,6 +29,8 @@ const categories = [
 ];
 
 export default function Categories() {
+  const { t } = useLanguage();
+
   return (
     <section className="py-24 bg-secondary/30 relative overflow-hidden">
       <div className="container mx-auto px-4">
@@ -38,10 +41,10 @@ export default function Categories() {
             viewport={{ once: true }}
             className="text-4xl font-bold font-heading mb-4"
           >
-            Explore the <span className="text-gradient">Marketplace</span>
+            {t.categories.title} <span className="text-gradient">{t.categories.titleAccent}</span>
           </motion.h2>
-          <p className="text-muted-foreground">
-            Whatever your business needs, there is a specialized freelancer in Algeria ready to help you succeed.
+          <p className="text-muted-foreground font-medium">
+            {t.categories.subtitle}
           </p>
         </div>
 
@@ -61,7 +64,7 @@ export default function Categories() {
                   <cat.icon className={`h-8 w-8 ${cat.color.replace('bg-', 'text-')}`} />
                 </div>
                 <h3 className="font-bold mb-2 group-hover:text-primary transition-colors">{cat.name}</h3>
-                <p className="text-xs text-muted-foreground font-medium">{cat.count}</p>
+                <p className="text-xs text-muted-foreground font-bold">{cat.count}</p>
               </div>
               
               {/* Subtle background pattern */}

@@ -11,13 +11,16 @@ import {
   DropdownMenuTrigger 
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Search, Bell, MessageSquare, Menu, X, PlusCircle, LayoutDashboard, Settings, User, LogOut, Briefcase } from 'lucide-react';
+import { Search, Bell, MessageSquare, Menu, X, PlusCircle, LayoutDashboard, Settings, User, LogOut, Briefcase, Languages } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
+import { useLanguage } from '@/context/LanguageContext';
+import { Language } from '@/translations';
 
 export default function Navbar() {
   const { user, profile, logout } = useAuth();
+  const { language, setLanguage, t } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -30,16 +33,16 @@ export default function Navbar() {
     <>
       <Link href="/projects" className="text-sm font-bold hover:text-primary transition-all flex items-center gap-2 group">
         <Briefcase className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-        Browse Projects
+        {t.common.browseProjects}
       </Link>
       <Link href="/freelancers" className="text-sm font-bold hover:text-primary transition-all flex items-center gap-2 group">
         <UsersIcon className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-        Find Freelancers
+        {t.common.findFreelancers}
       </Link>
       {user && (
         <Link href="/dashboard" className="text-sm font-bold hover:text-primary transition-all flex items-center gap-2 group">
           <LayoutDashboard className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
-          Dashboard
+          {t.common.dashboard}
         </Link>
       )}
     </>
@@ -77,6 +80,25 @@ export default function Navbar() {
 
           {user ? (
             <div className="flex items-center gap-2">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="rounded-xl h-11 w-11">
+                    <Languages className="h-5 w-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="rounded-2xl border-border/50 shadow-2xl">
+                  <DropdownMenuItem onClick={() => setLanguage('en')} className="rounded-lg py-2.5 font-bold">
+                    English {language === 'en' && '✓'}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setLanguage('ar')} className="rounded-lg py-2.5 font-bold">
+                    العربية {language === 'ar' && '✓'}
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setLanguage('fr')} className="rounded-lg py-2.5 font-bold">
+                    Français {language === 'fr' && '✓'}
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
               <Button variant="ghost" size="icon" className="hidden sm:flex rounded-xl h-11 w-11" asChild>
                 <Link href="/messages">
                   <MessageSquare className="h-5 w-5" />
@@ -88,7 +110,7 @@ export default function Navbar() {
               
               <Link href="/projects/new" className="hidden md:block ml-2">
                 <Button className="rounded-full h-11 px-6 font-bold shadow-lg shadow-primary/20 premium-gradient">
-                  Post a Project
+                  {t.common.postProject}
                 </Button>
               </Link>
 
@@ -109,26 +131,26 @@ export default function Navbar() {
                     </p>
                   </div>
                   <DropdownMenuItem asChild className="rounded-lg py-2.5">
-                    <Link href={`/profile/${user.uid}`} className="flex items-center gap-3">
-                      <User className="h-4 w-4" /> My Profile
+                    <Link href={`/profile/${user.uid}`} className="flex items-center gap-3 font-bold">
+                      <User className="h-4 w-4" /> {t.common.profile}
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild className="rounded-lg py-2.5">
-                    <Link href="/dashboard" className="flex items-center gap-3">
-                      <LayoutDashboard className="h-4 w-4" /> Dashboard
+                    <Link href="/dashboard" className="flex items-center gap-3 font-bold">
+                      <LayoutDashboard className="h-4 w-4" /> {t.common.dashboard}
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild className="rounded-lg py-2.5">
-                    <Link href="/settings" className="flex items-center gap-3">
-                      <Settings className="h-4 w-4" /> Settings
+                    <Link href="/settings" className="flex items-center gap-3 font-bold">
+                      <Settings className="h-4 w-4" /> {t.common.settings}
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator className="my-2" />
                   <DropdownMenuItem 
-                    className="text-destructive focus:text-destructive cursor-pointer rounded-lg py-2.5 flex items-center gap-3"
+                    className="text-destructive focus:text-destructive cursor-pointer rounded-lg py-2.5 flex items-center gap-3 font-bold"
                     onClick={() => logout()}
                   >
-                    <LogOut className="h-4 w-4" /> Logout
+                    <LogOut className="h-4 w-4" /> {t.common.logout}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -136,10 +158,10 @@ export default function Navbar() {
           ) : (
             <div className="flex items-center gap-3">
               <Link href="/login">
-                <Button variant="ghost" className="font-bold px-6 h-11 rounded-full">Login</Button>
+                <Button variant="ghost" className="font-bold px-6 h-11 rounded-full">{t.common.login}</Button>
               </Link>
               <Link href="/signup">
-                <Button className="rounded-full h-11 px-8 font-bold premium-gradient shadow-lg shadow-primary/20">Join Now</Button>
+                <Button className="rounded-full h-11 px-8 font-bold premium-gradient shadow-lg shadow-primary/20">{t.common.signup}</Button>
               </Link>
             </div>
           )}
